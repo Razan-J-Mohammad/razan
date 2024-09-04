@@ -1,0 +1,47 @@
+<div class="container">
+  <h2>Add a New Car</h2>
+  <form [formGroup]="carForm" (ngSubmit)="addCar()">
+    <div class="form-group">
+      <label for="name">Car Name</label>
+      <input id="name" formControlName="name" class="form-control" />
+      <div *ngIf="carForm.get('name')?.invalid && carForm.get('name')?.touched" class="text-danger">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input id="price" type="number" formControlName="price" class="form-control" />
+      <div *ngIf="carForm.get('price')?.invalid && carForm.get('price')?.touched" class="text-danger">
+        Price must be a positive number.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="model">Model</label>
+      <input id="model" formControlName="model" class="form-control" />
+      <div *ngIf="carForm.get('model')?.invalid && carForm.get('model')?.touched" class="text-danger">
+        Model is required.
+      </div>
+    </div>
+
+    <div class="form-group" *ngIf="carForm.get('model')?.value">
+      <label for="year">Year</label>
+      <input id="year" type="number" formControlName="year" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="carForm.invalid">Add Car</button>
+    <button type="button" class="btn btn-secondary" (click)="carForm.reset()">Reset</button>
+  </form>
+
+  <h3>Car List</h3>
+  <div *ngFor="let car of cars; let i = index" class="card mt-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ car.name }}</h5>
+      <p class="card-text">Price: ${{ car.price }}</p>
+      <p *ngIf="car.model" class="card-text">Model: {{ car.model }}</p>
+      <p *ngIf="car.year" class="card-text">Year: {{ car.year }}</p>
+      <button class="btn btn-danger" (click)="deleteCar(i)">Delete</button>
+    </div>
+  </div>
+</div>
